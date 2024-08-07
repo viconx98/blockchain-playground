@@ -2,10 +2,11 @@ import { Block, BlockUtils } from "../block";
 import * as Solid from "solid-js";
 
 type Props = {
+  index: number;
   block: Block;
   previousBlock?: Block;
-  onMineClick: (block: Block) => void;
-  onBlockUpdate: (block: Block) => void;
+  onMineClick: (block: Block, blockIndex: number) => void;
+  onBlockUpdate: (block: Block, blockIndex: number) => void;
 };
 
 export default function BlockCard(props: Props) {
@@ -40,7 +41,10 @@ export default function BlockCard(props: Props) {
       <p>Previous Hash: {props.block.previousBlockHash}</p>
       <p>Hash: {props.block.hash}</p>
 
-      <button class="border p-2" onClick={() => props.onMineClick(props.block)}>
+      <button
+        class="border p-2"
+        onClick={() => props.onMineClick(props.block, props.index)}
+      >
         Mine
       </button>
     </div>

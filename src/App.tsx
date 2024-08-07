@@ -10,22 +10,13 @@ const App: Solid.Component = () => {
     blockchain: INITIAL_BLOCKCHAIN,
   });
 
-  const onBlockMine = async (blockToMine: Block) => {
-    const blockArrayIndex = store.blockchain.findIndex(
-      (b) => b.blockNumber === blockToMine.blockNumber
-    );
-
-    if (blockArrayIndex === -1) {
-      console.error("Block doesn't exist.");
-      return;
-    }
-
+  const onBlockMine = async (blockToMine: Block, minedBlockIndex: number) => {
     const miningResult = await BlockUtils.mineBlock(
       blockToMine,
       "0".repeat(store.difficulty)
     );
 
-    setStore("blockchain", blockArrayIndex, {
+    setStore("blockchain", minedBlockIndex, {
       nonce: miningResult.nonce,
       hash: miningResult.hash,
     });
@@ -47,7 +38,10 @@ const App: Solid.Component = () => {
     setStore("blockchain", store.blockchain.length, newBlock);
   };
 
-  const onBlockUpdate = async (updatedBlock: Block) => {};
+  const onBlockUpdate = async (
+    updatedBlock: Block,
+    updatedBlockIndex: number
+  ) => {};
 
   return (
     <main class="w-full min-h-screen bg-zinc-950 text-zinc-50">
@@ -56,8 +50,9 @@ const App: Solid.Component = () => {
       </button>
 
       <Solid.For each={store.blockchain}>
-        {(block) => (
+        {(block, index) => (
           <BlockCard
+            index={index()}
             block={block}
             onMineClick={onBlockMine}
             onBlockUpdate={onBlockUpdate}
