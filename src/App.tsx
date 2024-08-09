@@ -15,9 +15,12 @@ const App: Solid.Component = () => {
   };
 
   const onBlockMine = async (blockToMine: Block, minedBlockIndex: number) => {
+    const previousBlock = getPreviousBlockByIndex(minedBlockIndex);
+
     const miningResult = await BlockUtils.mineBlock(
       blockToMine,
-      "0".repeat(store.difficulty)
+      "0".repeat(store.difficulty),
+      previousBlock
     );
 
     setStore("blockchain", minedBlockIndex, {
@@ -37,7 +40,6 @@ const App: Solid.Component = () => {
 
     const newBlock: Block = {
       blockNumber: lastBlock.blockNumber + 1,
-      previousBlockHash: lastBlock.minedHash,
     };
 
     setStore("blockchain", store.blockchain.length, newBlock);
@@ -58,14 +60,9 @@ const App: Solid.Component = () => {
 
       const previousBlock = getPreviousBlockByIndex(index);
 
-      if (previousBlock) {
-        setStore("blockchain", index, {
-          previousBlockHash: previousBlock.currentHash,
-        });
-      }
-
       const updatedCurrentHash = await BlockUtils.computeBlockHash(
-        store.blockchain[index]
+        store.blockchain[index],
+        previousBlock
       );
 
       setStore("blockchain", index, {
@@ -85,6 +82,7 @@ const App: Solid.Component = () => {
           <BlockCard
             index={index()}
             block={block}
+            previousBlock={getPreviousBlockByIndex(index())}
             onMineClick={onBlockMine}
             onBlockUpdate={onBlockUpdate}
           />

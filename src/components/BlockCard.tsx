@@ -49,7 +49,7 @@ export default function BlockCard(props: Props) {
           }
         />
       </div>
-      <p>Previous Hash: {props.block.previousBlockHash}</p>
+      <p>Previous Hash: {props.previousBlock?.currentHash}</p>
       <p>Mined Hash: {props.block.minedHash}</p>
       <p>Current Hash: {props.block.currentHash}</p>
 

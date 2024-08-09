@@ -1,8 +1,9 @@
+import { DEFAULT_PREVIOUS_BLOCK_HASH } from "./const";
+
 export type Block = {
   blockNumber: number;
   nonce?: number | null;
   data?: string | null;
-  previousBlockHash?: string | null;
   minedHash?: string | null;
   currentHash?: string | null;
 };
@@ -21,25 +22,40 @@ async function sha256(message: string) {
   return hashHex;
 }
 
-async function computeBlockHash(block: Block) {
+async function computeBlockHash(block: Block, previousBlock?: Block | string) {
+  const _nonce = block.nonce || "";
   const _data = block.data || "";
   const _number = block.blockNumber.toString();
+  const _previousBlockHash =
+    typeof previousBlock === "string"
+      ? previousBlock
+      : previousBlock?.currentHash || DEFAULT_PREVIOUS_BLOCK_HASH;
 
-  const textToHash = _number + block.nonce + _data + block.previousBlockHash;
+  const textToHash = _number + _nonce + _data + _previousBlockHash;
+
+  console.log(textToHash);
 
   const hash = await sha256(textToHash);
 
   return hash;
 }
 
-async function mineBlock(block: Block, prefix: string, initialNonce?: number) {
+async function mineBlock(
+  block: Block,
+  prefix: string,
+  previousBlock?: Block | string,
+  initialNonce?: number
+) {
+  const _number = block.blockNumber.toString();
   let nonce = initialNonce || 1;
+  const _data = block.data || "";
+  const _previousBlockHash =
+    typeof previousBlock === "string"
+      ? previousBlock
+      : previousBlock?.currentHash || "";
 
   while (true) {
-    const _data = block.data || "";
-    const _number = block.blockNumber.toString();
-
-    const textToHash = _number + nonce + _data + block.previousBlockHash;
+    const textToHash = _number + nonce + _data + _previousBlockHash;
 
     const hash = await sha256(textToHash);
 
