@@ -4,6 +4,7 @@ import { INITIAL_BLOCKCHAIN } from "./const";
 import BlockCard from "./components/BlockCard";
 import { Block, BlockUtils } from "./block";
 import Controls from "./components/Controls";
+import Blockchain from "./components/Blockchain";
 
 const App: Solid.Component = () => {
   const [store, setStore] = createStore({
@@ -73,18 +74,13 @@ const App: Solid.Component = () => {
   };
 
   return (
-    <main class="w-full min-h-screen bg-zinc-950 text-zinc-50 font-poppins pb-16">
-      <Solid.For each={store.blockchain}>
-        {(block, index) => (
-          <BlockCard
-            index={index()}
-            block={block}
-            previousBlock={getPreviousBlockByIndex(index())}
-            onMineClick={onBlockMine}
-            onBlockUpdate={onBlockUpdate}
-          />
-        )}
-      </Solid.For>
+    <main class="min-w-full min-h-screen bg-zinc-950 text-zinc-50 font-poppins">
+      <Blockchain
+        blockchain={store.blockchain}
+        difficulty={store.difficulty}
+        onBlockMine={onBlockMine}
+        onBlockUpdate={onBlockUpdate}
+      />
       <Controls
         difficulty={store.difficulty}
         onNewBlockClick={onBlockAdd}

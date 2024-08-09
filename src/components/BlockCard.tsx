@@ -1,5 +1,7 @@
+import { IconHash, IconPick } from "@tabler/icons-solidjs";
 import { Block, BlockUtils } from "../block";
 import * as Solid from "solid-js";
+import { DEFAULT_PREVIOUS_BLOCK_HASH } from "../const";
 
 type Props = {
   index: number;
@@ -20,45 +22,82 @@ export default function BlockCard(props: Props) {
   return (
     <div
       class={`
-      ${isValidBlock() ? "bg-green-500/20" : "bg-red-500/20"}
-      flex flex-col gap-2 border p-2
+        w-fit rounded-md
+        flex flex-col border-2 border-zinc-800 
+        shadow-xl ${
+          isValidBlock() ? "shadow-green-500/10" : "shadow-red-500/10"
+        }
+        overflow-hidden shrink-0
     `}
     >
-      <p>#{props.block.blockNumber}</p>
-      <div class="flex gap-2">
-        <p>Nonce: </p>
-        <input
-          type="number"
-          class="bg-zinc-800"
-          value={props.block.nonce?.toString() || ""}
-          onChange={(event) =>
-            props.onBlockUpdate(
-              { nonce: parseInt(event.target.value) },
-              props.index
-            )
-          }
-        />
+      <div class="flex flex-col w-full bg-zinc-900/50 px-2 py-4 border-b-2 border-dashed  border-zinc-800">
+        <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden">
+          <p class="text-sm bg-zinc-800 p-1 text-zinc-500">SHA-256</p>
+          <p class="text-sm p-1 rounded-md text-zinc-400">
+            {props.index === 0
+              ? DEFAULT_PREVIOUS_BLOCK_HASH
+              : props.previousBlock?.currentHash}
+          </p>
+        </div>
       </div>
-      <div class="flex gap-2">
-        <p>Data:</p>
+
+      <div class={"flex flex-col gap-4 p-2 bg-zinc-900"}>
+        <div
+          class={`
+          ${isValidBlock() ? "text-green-500" : "text-red-500"}
+          flex justify-between items-center 
+          `}
+        >
+          <p class="text-lg font-semibold">
+            #{props.block.blockNumber}
+            {" - "}
+            <span class={isValidBlock() ? "text-green-500" : "text-red-500"}>
+              {isValidBlock() ? "VALID" : "INVALID"}
+            </span>
+          </p>
+          <button
+            class="rounded-md p-2 flex items-center gap-2 justify-start hover:bg-zinc-800 transition-all active:bg-zinc-700 text-zinc-400"
+            onClick={() => props.onMineClick(props.block, props.index)}
+          >
+            <IconPick class="h-6 w-6" />
+            Mine
+          </button>
+        </div>
+        <div class="flex items-center gap-2">
+          <p class="text-sm text-zinc-500 font-semibold">Nonce</p>
+          <input
+            type="number"
+            class="bg-zinc-800 p-2 rounded-md border-2 border-zinc-700 outline-none w-full"
+            value={props.block.nonce?.toString() || ""}
+            onChange={(event) =>
+              props.onBlockUpdate(
+                { nonce: parseInt(event.target.value) },
+                props.index
+              )
+            }
+          />
+        </div>
         <textarea
-          class="bg-zinc-800"
+          placeholder="Data"
+          class="bg-zinc-800 p-2 rounded-md border-2 border-zinc-700 outline-none w-full placeholder:text-zinc-500"
           value={props.block.data?.toString() || ""}
           onChange={(event) =>
             props.onBlockUpdate({ data: event.target.value }, props.index)
           }
         />
-      </div>
-      <p>Previous Hash: {props.previousBlock?.currentHash}</p>
-      <p>Mined Hash: {props.block.minedHash}</p>
-      <p>Current Hash: {props.block.currentHash}</p>
 
-      <button
-        class="border p-2"
-        onClick={() => props.onMineClick(props.block, props.index)}
-      >
-        Mine
-      </button>
+        <div class="flex flex-col w-full rounded-md mt-2 gap-2">
+          <div class="flex flex-col gap-2 ">
+            <p class="text-xs text-zinc-500 font-semibold">Calculated Hash</p>
+          </div>
+          <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden">
+            <p class="text-sm bg-zinc-800 p-1 text-zinc-500">SHA-256</p>
+            <p class="text-sm p-1 rounded-md text-zinc-400">
+              {props.block.minedHash || props.block.currentHash}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -33,8 +33,6 @@ async function computeBlockHash(block: Block, previousBlock?: Block | string) {
 
   const textToHash = _number + _nonce + _data + _previousBlockHash;
 
-  console.log(textToHash);
-
   const hash = await sha256(textToHash);
 
   return hash;
@@ -52,10 +50,12 @@ async function mineBlock(
   const _previousBlockHash =
     typeof previousBlock === "string"
       ? previousBlock
-      : previousBlock?.currentHash || "";
+      : previousBlock?.currentHash || DEFAULT_PREVIOUS_BLOCK_HASH;
 
   while (true) {
     const textToHash = _number + nonce + _data + _previousBlockHash;
+
+    console.log(textToHash);
 
     const hash = await sha256(textToHash);
 
