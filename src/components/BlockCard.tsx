@@ -6,26 +6,15 @@ type Props = {
   block: Block;
   previousBlock?: Block;
   onMineClick: (block: Block, blockIndex: number) => void;
-  onBlockUpdate: (block: Block, blockIndex: number) => void;
+  onBlockUpdate: (block: Partial<Block>, blockIndex: number) => void;
 };
 
 export default function BlockCard(props: Props) {
-  const [currentHash, setCurrentHash] = Solid.createSignal<string>();
-
-  const computeCurrentHash = async () => {
-    const hash = await BlockUtils.computeBlockHash(props.block);
-    setCurrentHash(hash);
-  };
-
-  Solid.createEffect(() => {
-    computeCurrentHash();
-  });
-
   const isValidBlock = Solid.createMemo(
     () =>
-      Boolean(currentHash()) &&
-      Boolean(props.block.hash) &&
-      currentHash() === props.block.hash
+      Boolean(props.block.currentHash) &&
+      Boolean(props.block.minedHash) &&
+      props.block.currentHash === props.block.minedHash
   );
 
   return (
@@ -36,10 +25,33 @@ export default function BlockCard(props: Props) {
     `}
     >
       <p>#{props.block.blockNumber}</p>
-      <p>Nonce: {props.block.nonce}</p>
-      <p>Data: {props.block.data}</p>
+      <div class="flex gap-2">
+        <p>Nonce: </p>
+        <input
+          type="number"
+          class="bg-zinc-800"
+          value={props.block.nonce?.toString() || ""}
+          onChange={(event) =>
+            props.onBlockUpdate(
+              { nonce: parseInt(event.target.value) },
+              props.index
+            )
+          }
+        />
+      </div>
+      <div class="flex gap-2">
+        <p>Data:</p>
+        <textarea
+          class="bg-zinc-800"
+          value={props.block.data?.toString() || ""}
+          onChange={(event) =>
+            props.onBlockUpdate({ data: event.target.value }, props.index)
+          }
+        />
+      </div>
       <p>Previous Hash: {props.block.previousBlockHash}</p>
-      <p>Hash: {props.block.hash}</p>
+      <p>Mined Hash: {props.block.minedHash}</p>
+      <p>Current Hash: {props.block.currentHash}</p>
 
       <button
         class="border p-2"

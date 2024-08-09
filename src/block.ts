@@ -3,7 +3,8 @@ export type Block = {
   nonce?: number | null;
   data?: string | null;
   previousBlockHash?: string | null;
-  hash?: string | null;
+  minedHash?: string | null;
+  currentHash?: string | null;
 };
 
 async function sha256(message: string) {

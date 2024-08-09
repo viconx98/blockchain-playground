@@ -10,6 +10,10 @@ const App: Solid.Component = () => {
     blockchain: INITIAL_BLOCKCHAIN,
   });
 
+  const getPreviousBlockByIndex = (index: number) => {
+    return index > 0 ? store.blockchain[index - 1] : undefined;
+  };
+
   const onBlockMine = async (blockToMine: Block, minedBlockIndex: number) => {
     const miningResult = await BlockUtils.mineBlock(
       blockToMine,
@@ -18,7 +22,8 @@ const App: Solid.Component = () => {
 
     setStore("blockchain", minedBlockIndex, {
       nonce: miningResult.nonce,
-      hash: miningResult.hash,
+      minedHash: miningResult.hash,
+      currentHash: miningResult.hash,
     });
   };
 
@@ -32,16 +37,42 @@ const App: Solid.Component = () => {
 
     const newBlock: Block = {
       blockNumber: lastBlock.blockNumber + 1,
-      previousBlockHash: lastBlock.hash,
+      previousBlockHash: lastBlock.minedHash,
     };
 
     setStore("blockchain", store.blockchain.length, newBlock);
   };
 
   const onBlockUpdate = async (
-    updatedBlock: Block,
+    updatedBlock: Partial<Block>,
     updatedBlockIndex: number
-  ) => {};
+  ) => {
+    for (
+      let index = updatedBlockIndex;
+      index < store.blockchain.length;
+      index++
+    ) {
+      if (index === updatedBlockIndex) {
+        setStore("blockchain", index, { ...updatedBlock });
+      }
+
+      const previousBlock = getPreviousBlockByIndex(index);
+
+      if (previousBlock) {
+        setStore("blockchain", index, {
+          previousBlockHash: previousBlock.currentHash,
+        });
+      }
+
+      const updatedCurrentHash = await BlockUtils.computeBlockHash(
+        store.blockchain[index]
+      );
+
+      setStore("blockchain", index, {
+        currentHash: updatedCurrentHash,
+      });
+    }
+  };
 
   return (
     <main class="w-full min-h-screen bg-zinc-950 text-zinc-50">
