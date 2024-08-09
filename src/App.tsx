@@ -3,6 +3,7 @@ import { createStore } from "solid-js/store";
 import { INITIAL_BLOCKCHAIN } from "./const";
 import BlockCard from "./components/BlockCard";
 import { Block, BlockUtils } from "./block";
+import Controls from "./components/Controls";
 
 const App: Solid.Component = () => {
   const [store, setStore] = createStore({
@@ -72,11 +73,7 @@ const App: Solid.Component = () => {
   };
 
   return (
-    <main class="w-full min-h-screen bg-zinc-950 text-zinc-50">
-      <button class="border p-2 rounded-md" onClick={onBlockAdd}>
-        Add Block
-      </button>
-
+    <main class="w-full min-h-screen bg-zinc-950 text-zinc-50 font-poppins pb-16">
       <Solid.For each={store.blockchain}>
         {(block, index) => (
           <BlockCard
@@ -88,6 +85,17 @@ const App: Solid.Component = () => {
           />
         )}
       </Solid.For>
+      <Controls
+        difficulty={store.difficulty}
+        onNewBlockClick={onBlockAdd}
+        onDifficultyChange={(difficulty) => {
+          if (difficulty > 5) {
+            alert("Harder difficulty will result in longer mine times!");
+          }
+          setStore("difficulty", difficulty);
+          setStore("blockchain", []);
+        }}
+      />
     </main>
   );
 };
