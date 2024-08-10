@@ -22,7 +22,7 @@ export default function BlockCard(props: Props) {
   return (
     <div
       class={`
-        w-fit rounded-md
+        w-full md:w-fit rounded-md
         flex flex-col border-2 border-zinc-800 
         shadow-xl ${
           isValidBlock() ? "shadow-green-500/10" : "shadow-red-500/10"
@@ -33,7 +33,7 @@ export default function BlockCard(props: Props) {
       <div class="flex flex-col w-full bg-zinc-900/50 px-2 py-4 border-b-2 border-dashed  border-zinc-800">
         <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden">
           <p class="text-sm bg-zinc-800 p-1 text-zinc-500">SHA-256</p>
-          <p class="text-sm p-1 rounded-md text-zinc-400">
+          <p class="text-sm p-1 rounded-md text-zinc-400 break-all">
             {props.index === 0
               ? DEFAULT_PREVIOUS_BLOCK_HASH
               : props.previousBlock?.currentHash}
@@ -92,7 +92,7 @@ export default function BlockCard(props: Props) {
           </div>
           <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden">
             <p class="text-sm bg-zinc-800 p-1 text-zinc-500">SHA-256</p>
-            <p class="text-sm p-1 rounded-md text-zinc-400">
+            <p class="text-sm p-1 rounded-md text-zinc-400 break-all">
               {props.block.minedHash || props.block.currentHash}
             </p>
           </div>

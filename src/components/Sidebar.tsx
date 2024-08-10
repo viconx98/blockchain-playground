@@ -6,7 +6,13 @@ type Props = {
 
 const Sidebar = (props: Props) => {
   return (
-    <aside class="w-80 shrink-0 bg-zinc-900 border-r-2 border-zinc-800 p-2 flex flex-col justify-between">
+    <aside
+      class={`
+    absolute md:static inset-0 z-10 w-80 h-screen p-2
+    flex flex-col justify-between shrink-0 
+    bg-zinc-900 border-r-2 border-zinc-800 
+    `}
+    >
       <div>
         <div class="flex items-center justify-between">
           <h1 class="text-xl">Blockchain Playground</h1>

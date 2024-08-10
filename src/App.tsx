@@ -77,7 +77,7 @@ const App: Solid.Component = () => {
   };
 
   return (
-    <main class="min-w-full min-h-screen bg-zinc-950 text-zinc-50 font-poppins flex">
+    <main class="relative min-w-full min-h-screen bg-zinc-950 text-zinc-50 font-poppins flex ">
       {store.isSidebarOpen ? (
         <Sidebar onCloseClick={() => setStore("isSidebarOpen", false)} />
       ) : (
