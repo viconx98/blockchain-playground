@@ -14,4 +14,17 @@
     .custom-scrollbar::-webkit-scrollbar-thumb {
         @apply bg-zinc-500 rounded-md;
     }
+
+    .dotted-background {
+        /* zinc-950 */
+        --dot-bg: #09090b; 
+        /* zinc-500 */
+        --dot-color: #71717a;
+        --dot-size: 1px;
+        --dot-space: 16px;
+        background:
+            linear-gradient(90deg, var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+            linear-gradient(var(--dot-bg) calc(var(--dot-space) - var(--dot-size)), transparent 1%) center / var(--dot-space) var(--dot-space),
+            var(--dot-color);
+    }
 }

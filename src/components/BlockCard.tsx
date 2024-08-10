@@ -33,7 +33,7 @@ export default function BlockCard(props: Props) {
         shrink-0
     `}
       >
-        <div class="flex flex-col w-full bg-zinc-900/50 px-2 py-4 border-b-2 border-dashed  border-zinc-800">
+        <div class="flex flex-col w-full bg-zinc-900/50 px-2 py-4 border-b-2 border-dashed  border-zinc-800 backdrop-blur-[1px]">
           <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden">
             <p class="text-sm bg-zinc-800 p-1 text-zinc-500">SHA-256</p>
             <p class="text-sm p-1 rounded-md text-zinc-400 break-all">
