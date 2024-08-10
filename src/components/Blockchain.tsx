@@ -15,7 +15,7 @@ const Blockchain = (props: Props) => {
   };
 
   return (
-    <div class="flex h-screen items-center overflow-x-scroll">
+    <div class="flex h-screen items-center overflow-x-auto pl-16">
       <Solid.For each={props.blockchain}>
         {(block, index) => (
           <BlockCard

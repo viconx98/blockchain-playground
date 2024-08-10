@@ -32,7 +32,7 @@ export default function Controls(props: Props) {
           <p class="text-sm font-semibold">New Block</p>
         </button>
 
-        <div class="h-10 w-[2px] self-center bg-zinc-700 mx-1" />
+        {/* <div class="h-10 w-[2px] self-center bg-zinc-700 mx-1" />
 
         <div class="flex flex-col gap-1 items-start justify-center px-2">
           <div class="flex items-center justify-between w-full">
@@ -51,7 +51,7 @@ export default function Controls(props: Props) {
               props.onDifficultyChange(event.target.valueAsNumber)
             }
           />
-        </div>
+        </div> */}
       </div>
     </div>
   );
