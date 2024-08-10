@@ -5,6 +5,7 @@ import BlockCard from "./BlockCard";
 type Props = {
   blockchain: Block[];
   difficulty: number;
+  blockBeingMined: Block["blockNumber"] | null;
   onBlockMine: (block: Block, blockIndex: number) => void;
   onBlockUpdate: (block: Partial<Block>, blockIndex: number) => void;
 };
@@ -21,6 +22,7 @@ const Blockchain = (props: Props) => {
           <BlockCard
             index={index()}
             block={block}
+            isBeingMined={block.blockNumber === props.blockBeingMined}
             previousBlock={getPreviousBlockByIndex(index())}
             onMineClick={props.onBlockMine}
             onBlockUpdate={props.onBlockUpdate}

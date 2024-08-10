@@ -55,8 +55,6 @@ async function mineBlock(
   while (true) {
     const textToHash = _number + nonce + _data + _previousBlockHash;
 
-    console.log(textToHash);
-
     const hash = await sha256(textToHash);
 
     if (hash.startsWith(prefix)) {
@@ -70,4 +68,5 @@ async function mineBlock(
 export const BlockUtils = {
   computeBlockHash,
   mineBlock,
+  sha256,
 };

@@ -8,11 +8,19 @@ import Blockchain from "./components/Blockchain";
 import Sidebar from "./components/Sidebar";
 import { IconMenu2 } from "@tabler/icons-solidjs";
 
+type Store = {
+  difficulty: number;
+  blockchain: Block[];
+  isSidebarOpen: boolean;
+  blockBeingMined: Block["blockNumber"] | null;
+};
+
 const App: Solid.Component = () => {
-  const [store, setStore] = createStore({
+  const [store, setStore] = createStore<Store>({
     difficulty: 4,
     blockchain: INITIAL_BLOCKCHAIN,
     isSidebarOpen: false,
+    blockBeingMined: null,
   });
 
   const getPreviousBlockByIndex = (index: number) => {
@@ -20,7 +28,14 @@ const App: Solid.Component = () => {
   };
 
   const onBlockMine = async (blockToMine: Block, minedBlockIndex: number) => {
+    if (store.blockBeingMined) {
+      alert("You can only mine one block at a time!");
+      return;
+    }
+
     const previousBlock = getPreviousBlockByIndex(minedBlockIndex);
+
+    setStore("blockBeingMined", blockToMine.blockNumber);
 
     const miningResult = await BlockUtils.mineBlock(
       blockToMine,
@@ -33,10 +48,17 @@ const App: Solid.Component = () => {
       minedHash: miningResult.hash,
       currentHash: miningResult.hash,
     });
+
+    setStore("blockBeingMined", null);
   };
 
   const onBlockAdd = async () => {
     const lastBlock = store.blockchain.at(-1);
+
+    if (!lastBlock?.minedHash) {
+      alert("Please mine the last block before adding a new one!");
+      return;
+    }
 
     if (!lastBlock) {
       console.error("Invalid state. Blockchain array is empty.");
@@ -98,6 +120,7 @@ const App: Solid.Component = () => {
       <Blockchain
         blockchain={store.blockchain}
         difficulty={store.difficulty}
+        blockBeingMined={store.blockBeingMined}
         onBlockMine={onBlockMine}
         onBlockUpdate={onBlockUpdate}
       />

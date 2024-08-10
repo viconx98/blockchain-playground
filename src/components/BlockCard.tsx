@@ -7,6 +7,7 @@ type Props = {
   index: number;
   block: Block;
   previousBlock?: Block;
+  isBeingMined?: boolean;
   onMineClick: (block: Block, blockIndex: number) => void;
   onBlockUpdate: (block: Partial<Block>, blockIndex: number) => void;
 };
@@ -56,11 +57,19 @@ export default function BlockCard(props: Props) {
             </span>
           </p>
           <button
-            class="rounded-md p-2 flex items-center gap-2 justify-start hover:bg-zinc-800 transition-all active:bg-zinc-700 text-zinc-400"
+            disabled={props.isBeingMined}
+            class="rounded-md p-2 flex items-center gap-2 justify-start hover:bg-zinc-800 disabled:bg-zinc-800 transition-all active:bg-zinc-700 text-zinc-400"
             onClick={() => props.onMineClick(props.block, props.index)}
           >
-            <IconPick class="h-6 w-6" />
-            Mine
+            <IconPick
+              class={`
+              h-6 w-6 shrink-0
+              ${props.isBeingMined && "animate-bounce"}
+              `}
+            />
+            <span class="w-full">
+              {props.isBeingMined ? "Mining..." : "Mine"}
+            </span>
           </button>
         </div>
         <div class="flex items-center gap-2">
@@ -90,7 +99,7 @@ export default function BlockCard(props: Props) {
           <div class="flex flex-col gap-2 ">
             <p class="text-xs text-zinc-500 font-semibold">Calculated Hash</p>
           </div>
-          <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden">
+          <div class="flex gap-1 border-2 border-zinc-700 w-fit rounded-md overflow-hidden w-full">
             <p class="text-sm bg-zinc-800 p-1 text-zinc-500">SHA-256</p>
             <p class="text-sm p-1 rounded-md text-zinc-400 break-all">
               {props.block.minedHash || props.block.currentHash}
