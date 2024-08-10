@@ -16,13 +16,14 @@ const Blockchain = (props: Props) => {
   };
 
   return (
-    <div class="flex min-h-screen max-h-screen w-full items-center overflow-auto flex-col pt-16 pb-20 px-2 md:pb-0 md:flex-row md:px-0 md:pl-16 md:pt-0">
+    <div class="flex min-h-screen max-h-screen w-full items-center overflow-auto flex-col pt-16 pb-20 px-2 md:pb-0 md:flex-row md:px-16 md:pt-0 custom-scrollbar">
       <Solid.For each={props.blockchain}>
         {(block, index) => (
           <BlockCard
             index={index()}
             block={block}
             isBeingMined={block.blockNumber === props.blockBeingMined}
+            isLastBlock={index() === props.blockchain.length - 1}
             previousBlock={getPreviousBlockByIndex(index())}
             onMineClick={props.onBlockMine}
             onBlockUpdate={props.onBlockUpdate}

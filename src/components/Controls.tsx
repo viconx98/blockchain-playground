@@ -10,7 +10,7 @@ type Props = {
 
 export default function Controls(props: Props) {
   return (
-    <div class="fixed bottom-0 w-full flex items-center justify-center">
+    <div class="fixed bottom-0 left-1/2 -translate-x-1/2 flex items-center justify-center">
       <div
         class={`
           h-12 mb-4 w-fit 
