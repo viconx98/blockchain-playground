@@ -126,6 +126,7 @@ const App: Solid.Component = () => {
       />
       <Controls
         difficulty={store.difficulty}
+        showTip={store.blockchain.length > 1}
         onNewBlockClick={onBlockAdd}
         onDifficultyChange={(difficulty) => {
           if (difficulty > 5) {

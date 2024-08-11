@@ -4,6 +4,7 @@ import * as Solid from "solid-js";
 
 type Props = {
   difficulty: number;
+  showTip?: boolean;
   onNewBlockClick: () => void;
   onDifficultyChange: (newDifficulty: number) => void;
 };
@@ -14,7 +15,7 @@ export default function Controls(props: Props) {
       <div
         class={`
           h-12 mb-4 w-fit 
-          flex
+          flex shrink-0
           bg-zinc-900 text-zinc-400
           border-zinc-800 rounded-md border-2
         `}
@@ -53,6 +54,15 @@ export default function Controls(props: Props) {
           />
         </div> */}
       </div>
+
+      {props.showTip && (
+        <div class="hidden md:block relative mb-4">
+          <p class="absolute -left-0 bottom-1/2 translate-y-1/2 text-sm text-zinc-500 w-[50ch] pl-4">
+            Tip: Use <span class="text-zinc-300">shift + mouse wheel</span> to
+            scroll sideways
+          </p>
+        </div>
+      )}
     </div>
   );
 }
