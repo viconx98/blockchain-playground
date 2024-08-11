@@ -19,7 +19,7 @@ const App: Solid.Component = () => {
   const [store, setStore] = createStore<Store>({
     difficulty: 4,
     blockchain: INITIAL_BLOCKCHAIN,
-    isSidebarOpen: false,
+    isSidebarOpen: true,
     blockBeingMined: null,
   });
 

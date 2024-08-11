@@ -1,16 +1,16 @@
-## Usage
+## About
 
-Those templates dependencies are maintained via [pnpm](https://pnpm.io) via `pnpm up -Lri`.
+This is an interactive demo of a blockchain. It lets you play around with the core concepts of a blockchain - hashing and mining.
 
-This is the reason you see a `pnpm-lock.yaml`. That being said, any package manager will work. This file can be safely be removed once you clone a template.
+### This project was built using [SolidJS](https://solidjs.com)!
+
+## Install Dependancies
 
 ```bash
 $ npm install # or pnpm install or yarn install
 ```
 
-### Learn more on the [Solid Website](https://solidjs.com) and come chat with us on our [Discord](https://discord.com/invite/solidjs)
-
-## Available Scripts
+## Run Project
 
 In the project directory, you can run:
 

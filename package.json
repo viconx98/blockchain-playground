@@ -1,7 +1,7 @@
 {
-  "name": "vite-template-solid",
-  "version": "0.0.0",
-  "description": "",
+  "name": "blockchain-playground",
+  "version": "1.0.0",
+  "description": "Interactive demo of blockchain that covers the basics.",
   "scripts": {
     "start": "vite",
     "dev": "vite",
