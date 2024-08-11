@@ -2,7 +2,9 @@
 
 This is an interactive demo of a blockchain. It lets you play around with the core concepts of a blockchain - hashing and mining.
 
-### This project was built using [SolidJS](https://solidjs.com)!
+https://github.com/user-attachments/assets/914faec8-caab-4cf5-a874-5765206acffc
+
+#### This project was built using [SolidJS](https://solidjs.com)!
 
 ## Install Dependancies
 
