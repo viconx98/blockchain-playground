@@ -48,6 +48,21 @@ const Sidebar = (props: Props) => {
         >
           Checkout this amazing explainer by 3Blue1Brown.
         </a>
+
+        <p class="mt-4">Technical details</p>
+        <p class="text-sm text-zinc-300 mt-1">
+          - Difficulty is set to 4, meaning all mined hashes must start with 4
+          zeroes.
+        </p>
+        <p class="text-sm text-zinc-300 mt-1">
+          - The SHA-256 is calculated as:
+        </p>
+        <pre class="text-sm text-blue-400 mt-1 bg-zinc-950/75 rounded-md p-2">
+          {`hash = block_number 
+        + nonce 
+        + data 
+        + previous_block_hash`}
+        </pre>
       </div>
 
       <a
